@@ -1,17 +1,17 @@
 [package]
-name = "Land"
+name = "Maintain"
 version = "0.0.1"
 edition = "2021"
 publish = false
-default-run = "Land"
+default-run = "Maintain"
 autobins = false
 autoexamples = false
 autotests = false
 autobenches = false
 
 [[bin]]
-name = "Land"
-path = "Source/Fn/Binary/Land.rs"
+name = "Maintain"
+path = "Source/Fn/Binary/Maintain.rs"
 
 [lib]
 name = "Library"
