@@ -1,13 +1,17 @@
 [package]
-name = "MaintainLand"
-version = "0.0.1"
-edition = "2021"
-publish = false
-default-run = "Maintain"
+autobenches = false
 autobins = false
 autoexamples = false
 autotests = false
-autobenches = false
+default-run = "Maintain"
+documentation = "https://docs.maintain.land.playform.cloud"
+edition = "2021"
+homepage = "https://maintain.land.playform.cloud"
+license-file = "LICENSE"
+name = "Maintain"
+publish = false
+repository = "https://github.com/CodeEditorLand/CargoMaintain"
+version = "0.0.1"
 
 [[bin]]
 name = "Maintain"
