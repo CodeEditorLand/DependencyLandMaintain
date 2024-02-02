@@ -45,7 +45,7 @@ fn main() {
             "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'"
         },
         "devDependencies": {
-            "typescript-esbuild": "0.3.6"
+            "typescript-esbuild": "0.3.7"
         }
     }
     "#;
