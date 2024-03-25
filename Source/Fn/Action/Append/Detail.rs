@@ -39,7 +39,7 @@ fn main() {
         "author": {
             "name": "Nikola R. Hristov",
             "email": "Nikola@Playform.Cloud",
-            "url": "https://nikolahristov.tech"
+            "url": "https://NikolaHristov.Tech"
         },
         "scripts": {
             "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'"
