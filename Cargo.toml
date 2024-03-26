@@ -10,7 +10,7 @@ homepage = "https://Maintain.Land.Playform.Cloud"
 license-file = "LICENSE"
 name = "Maintain"
 publish = false
-repository = "HTTPS://GitHub.Com/CodeEditorLand/CargoMaintain"
+repository = "https://GitHub.Com/CodeEditorLand/CargoMaintain"
 version = "0.0.1"
 
 [[bin]]

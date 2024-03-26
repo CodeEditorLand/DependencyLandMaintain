@@ -20,13 +20,13 @@ fn main() {
 	// Define the JSON content
 	let json_content = r#"
     {
-        "homepage": "HTTPS://GitHub.Com/CodeEditorLand/Build#readme",
+        "homepage": "https://GitHub.Com/CodeEditorLand/Build#readme",
         "bugs": {
-            "url": "HTTPS://GitHub.Com/CodeEditorLand/Build/issues"
+            "url": "https://GitHub.Com/CodeEditorLand/Build/issues"
         },
         "repository": {
             "type": "git",
-            "url": "git+HTTPS://GitHub.Com/CodeEditorLand/Build.git"
+            "url": "git+https://GitHub.Com/CodeEditorLand/Build.git"
         },
         "version": "0.0.1",
         "license": "SEE LICENSE IN LICENSE",
@@ -39,7 +39,7 @@ fn main() {
         "author": {
             "name": "Nikola R. Hristov",
             "email": "Nikola@Playform.Cloud",
-            "url": "HTTPS://NikolaHristov.Tech"
+            "url": "https://NikolaHristov.Tech"
         },
         "scripts": {
             "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'"
