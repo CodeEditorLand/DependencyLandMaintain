@@ -38,7 +38,7 @@ fn main() {
         },
         "author": {
             "name": "Nikola R. Hristov",
-            "email": "Nikola@playform.cloud",
+            "email": "nikola@playform.cloud",
             "url": "https://nikolahristov.tech"
         },
         "scripts": {
