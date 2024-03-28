@@ -38,8 +38,8 @@ fn main() {
         },
         "author": {
             "name": "Nikola R. Hristov",
-            "email": "Nikola@Playform.Cloud",
-            "url": "https://NikolaHristov.Tech"
+            "email": "Nikola@playform.cloud",
+            "url": "https://nikolahristov.tech"
         },
         "scripts": {
             "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'"
