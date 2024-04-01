@@ -20,13 +20,13 @@ fn main() {
 	// Define the JSON content
 	let json_content = r#"
     {
-        "homepage": "https://GitHub.Com/CodeEditorLand/Build#readme",
+        "homepage": "https://github.com/CodeEditorLand/Build#readme",
         "bugs": {
-            "url": "https://GitHub.Com/CodeEditorLand/Build/issues"
+            "url": "https://github.com/CodeEditorLand/Build/issues"
         },
         "repository": {
             "type": "git",
-            "url": "git+https://GitHub.Com/CodeEditorLand/Build.git"
+            "url": "git+https://github.com/CodeEditorLand/Build.git"
         },
         "version": "0.0.1",
         "license": "SEE LICENSE IN LICENSE",
@@ -45,7 +45,7 @@ fn main() {
             "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'"
         },
         "devDependencies": {
-            "typescript-esbuild": "0.3.7"
+            "@playform/build": "0.3.7"
         }
     }
     "#;
