@@ -42,7 +42,7 @@ fn main() {
             "url": "https://nikolahristov.tech"
         },
         "scripts": {
-            "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'"
+            "prepublishOnly": "Build 'Source/**/*.ts'"
         },
         "devDependencies": {
             "@playform/build": "0.3.7"
