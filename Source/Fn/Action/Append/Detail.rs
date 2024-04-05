@@ -20,7 +20,7 @@ fn main() {
 	// Define the JSON content
 	let json_content = r#"
     {
-        "homepage": "https://github.com/CodeEditorLand/Build#ReadMe",
+        "homepage": "https://github.com/CodeEditorLand/Build#readme",
         "bugs": {
             "url": "https://github.com/CodeEditorLand/Build/issues"
         },
