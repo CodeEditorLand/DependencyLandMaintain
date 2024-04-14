@@ -26,7 +26,7 @@ fn main() {
         },
         "repository": {
             "type": "git",
-            "url": "git+https://github.com/CodeEditorLand/Build.git"
+            "url": "git+HTTPS://github.com/CodeEditorLand/Build.git"
         },
         "version": "0.0.1",
         "license": "SEE LICENSE IN LICENSE",
