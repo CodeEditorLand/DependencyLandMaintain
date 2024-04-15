@@ -22,7 +22,7 @@ fn main() {
     {
         "homepage": "HTTPS://GitHub.Com/CodeEditorLand/Build#readme",
         "bugs": {
-            "url": "https://github.com/CodeEditorLand/Build/issues"
+            "url": "HTTPS://GitHub.Com/CodeEditorLand/Build/issues"
         },
         "repository": {
             "type": "git",
