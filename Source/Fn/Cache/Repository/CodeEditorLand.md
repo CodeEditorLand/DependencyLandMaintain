@@ -308,4 +308,4 @@ CodeEditorLand/ScopestudioLand
 CodeEditorLand/SynapseLand 
 CodeEditorLand/ThemeConverterForVs
 CodeEditorLand/TypeScriptLandExtensions 
-CodeEditorLand/Website
+CodeEditorLand/WebSite
