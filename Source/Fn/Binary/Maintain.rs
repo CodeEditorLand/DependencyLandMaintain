@@ -6,7 +6,7 @@ use Library::Fn::Cache;
 fn main() {
 	let matches = Command::new("🤸🏽 Maintain.")
 		.version(env!("CARGO_PKG_VERSION"))
-		.author("Nikola R. Hristov")
+		.author("Nikola Hristov")
 		.about("Build")
 		.arg(arg!(--category <VALUE>).required(true))
 		.arg(arg!(--process <VALUE>).required(true))

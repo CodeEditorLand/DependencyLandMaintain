@@ -37,7 +37,7 @@ fn main() {
             "access": "public"
         },
         "author": {
-            "name": "Nikola R. Hristov",
+            "name": "Nikola Hristov",
             "email": "nikola@playform.cloud",
             "url": "https://nikolahristov.tech"
         },
