@@ -31,15 +31,15 @@ fn main() {
         "version": "0.0.1",
         "license": "SEE LICENSE IN LICENSE",
         "type": "module",
-        "publisher": "playform",
+        "publisher": "codeeditorland",
         "private": false,
         "publishConfig": {
             "access": "public"
         },
         "author": {
-            "name": "Nikola Hristov",
-            "email": "Nikola@PlayForm.Cloud",
-            "url": "https://nikolahristov.tech"
+            "name": "🖋️ Source — 👐🏻 Open —",
+            "email": "Source/Open@Editor.Land",
+            "url": "HTTPS://Editor.Land"
         },
         "scripts": {
             "prepublishOnly": "Build 'Source/**/*.ts'"
