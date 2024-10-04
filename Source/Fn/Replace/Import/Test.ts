@@ -12,19 +12,16 @@
 //#region --- workbench common
 
 import "vs/workbench/workbench.common.main";
-
 //#endregion
 
 //#region --- workbench parts
 
 import "vs/workbench/browser/parts/dialogs/dialog.web.contribution";
-
 //#endregion
 
 //#region --- workbench (web main)
 
 import "vs/workbench/browser/web.main";
-
 //#endregion
 
 //#region --- workbench services
@@ -107,6 +104,74 @@ import {
 } from "vs/workbench/services/timer/browser/timerService";
 import { ITitleService } from "vs/workbench/services/title/browser/titleService";
 
+//#endregion
+
+//#region --- workbench contributions
+
+// Logs
+import "vs/workbench/contrib/logs/browser/logs.contribution";
+// Localization
+import "vs/workbench/contrib/localization/browser/localization.contribution";
+// Performance
+import "vs/workbench/contrib/performance/browser/performance.web.contribution";
+// Preferences
+import "vs/workbench/contrib/preferences/browser/keyboardLayoutPicker";
+// Debug
+import "vs/workbench/contrib/debug/browser/extensionHostDebugService";
+// Welcome Banner
+import "vs/workbench/contrib/welcomeBanner/browser/welcomeBanner.contribution";
+// Welcome Dialog
+import "vs/workbench/contrib/welcomeDialog/browser/welcomeDialog.contribution";
+// Webview
+import "vs/workbench/contrib/webview/browser/webview.web.contribution";
+// Extensions Management
+import "vs/workbench/contrib/extensions/browser/extensions.web.contribution";
+import "vs/workbench/contrib/externalTerminal/browser/externalTerminal.contribution";
+// Terminal
+import "vs/workbench/contrib/terminal/browser/terminal.web.contribution";
+import "vs/workbench/contrib/terminal/browser/terminalInstanceService";
+// Tasks
+import "vs/workbench/contrib/tasks/browser/taskService";
+// Tags
+import "vs/workbench/contrib/tags/browser/workspaceTagsService";
+// Issues
+import "vs/workbench/contrib/issue/browser/issue.contribution";
+// Splash
+import "vs/workbench/contrib/splash/browser/splash.contribution";
+// Remote Start Entry for the Web
+import "vs/workbench/contrib/remote/browser/remoteStartEntry.contribution";
+
+//#endregion
+
+//#region --- export workbench factory
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//
+// Do NOT change these exports in a way that something is removed unless
+// intentional. These exports are used by web embedders and thus require
+// an adoption when something changes.
+//
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+import { Emitter, Event } from "vs/base/common/event";
+import { Disposable } from "vs/base/common/lifecycle";
+import { URI } from "vs/base/common/uri";
+import {
+	RemoteAuthorityResolverError,
+	RemoteAuthorityResolverErrorCode,
+} from "vs/platform/remote/common/remoteAuthorityResolver";
+import { UserDataSyncResourceProviderService } from "vs/platform/userDataSync/common/userDataSyncResourceProvider";
+import { Menu } from "vs/workbench/browser/web.api";
+import {
+	commands,
+	create,
+	env,
+	logger,
+	window,
+	workspace,
+} from "vs/workbench/browser/web.factory";
+import { GroupOrientation } from "vs/workbench/services/editor/common/editorGroupsService";
+
 registerSingleton(
 	IWorkbenchExtensionManagementService,
 	ExtensionManagementService,
@@ -179,88 +244,6 @@ registerSingleton(
 	WebLanguagePacksService,
 	InstantiationType.Delayed,
 );
-
-//#endregion
-
-//#region --- workbench contributions
-
-// Logs
-import "vs/workbench/contrib/logs/browser/logs.contribution";
-
-// Localization
-import "vs/workbench/contrib/localization/browser/localization.contribution";
-
-// Performance
-import "vs/workbench/contrib/performance/browser/performance.web.contribution";
-
-// Preferences
-import "vs/workbench/contrib/preferences/browser/keyboardLayoutPicker";
-
-// Debug
-import "vs/workbench/contrib/debug/browser/extensionHostDebugService";
-
-// Welcome Banner
-import "vs/workbench/contrib/welcomeBanner/browser/welcomeBanner.contribution";
-
-// Welcome Dialog
-import "vs/workbench/contrib/welcomeDialog/browser/welcomeDialog.contribution";
-
-// Webview
-import "vs/workbench/contrib/webview/browser/webview.web.contribution";
-
-// Extensions Management
-import "vs/workbench/contrib/extensions/browser/extensions.web.contribution";
-
-import "vs/workbench/contrib/externalTerminal/browser/externalTerminal.contribution";
-// Terminal
-import "vs/workbench/contrib/terminal/browser/terminal.web.contribution";
-import "vs/workbench/contrib/terminal/browser/terminalInstanceService";
-
-// Tasks
-import "vs/workbench/contrib/tasks/browser/taskService";
-
-// Tags
-import "vs/workbench/contrib/tags/browser/workspaceTagsService";
-
-// Issues
-import "vs/workbench/contrib/issue/browser/issue.contribution";
-
-// Splash
-import "vs/workbench/contrib/splash/browser/splash.contribution";
-
-// Remote Start Entry for the Web
-import "vs/workbench/contrib/remote/browser/remoteStartEntry.contribution";
-
-//#endregion
-
-//#region --- export workbench factory
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//
-// Do NOT change these exports in a way that something is removed unless
-// intentional. These exports are used by web embedders and thus require
-// an adoption when something changes.
-//
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-import { Emitter, Event } from "vs/base/common/event";
-import { Disposable } from "vs/base/common/lifecycle";
-import { URI } from "vs/base/common/uri";
-import {
-	RemoteAuthorityResolverError,
-	RemoteAuthorityResolverErrorCode,
-} from "vs/platform/remote/common/remoteAuthorityResolver";
-import { UserDataSyncResourceProviderService } from "vs/platform/userDataSync/common/userDataSyncResourceProvider";
-import { Menu } from "vs/workbench/browser/web.api";
-import {
-	commands,
-	create,
-	env,
-	logger,
-	window,
-	workspace,
-} from "vs/workbench/browser/web.factory";
-import { GroupOrientation } from "vs/workbench/services/editor/common/editorGroupsService";
 
 export {
 	// Factory
