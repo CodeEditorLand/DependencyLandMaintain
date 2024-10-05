@@ -23,9 +23,13 @@ fn main() {
 	println!("Process completed successfully.");
 }
 
-fn process_repository(repository: &str, current_dir: &std::path::Path) -> std::io::Result<()> {
+fn process_repository(
+	repository:&str,
+	current_dir:&std::path::Path,
+) -> std::io::Result<()> {
 	// Change directory to the repository
-	let repository_path = current_dir.join(repository.replace("CodeEditorLand/", ""));
+	let repository_path =
+		current_dir.join(repository.replace("CodeEditorLand/", ""));
 
 	env::set_current_dir(&repository_path)?;
 
@@ -71,7 +75,7 @@ fn process_repository(repository: &str, current_dir: &std::path::Path) -> std::i
 	Ok(())
 }
 
-fn execute_command(command: &str, args: &[&str]) -> std::io::Result<()> {
+fn execute_command(command:&str, args:&[&str]) -> std::io::Result<()> {
 	if !Command::new(command).args(args).status()?.success() {
 		return Err(std::io::Error::new(
 			std::io::ErrorKind::Other,
@@ -91,7 +95,7 @@ fn get_origin_url() -> String {
 			} else {
 				String::new()
 			}
-		}
+		},
 		Err(_) => String::new(),
 	}
 }

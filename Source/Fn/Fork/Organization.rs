@@ -18,7 +18,7 @@ fn main() {
 	});
 }
 
-fn script(repository: &str) {
+fn script(repository:&str) {
 	let output = Command::new("gh")
 		.arg("repo")
 		.arg("fork")

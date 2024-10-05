@@ -26,7 +26,7 @@ fn main() {
 	// Maintain Workflow
 }
 
-fn run_script(script_path: &Path) {
+fn run_script(script_path:&Path) {
 	if script_path.exists() {
 		println!("Running script: {:?}", script_path);
 	// TODO: Execute the script here

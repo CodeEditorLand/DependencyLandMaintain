@@ -1,9 +1,16 @@
+use std::path::Path;
+
 use anyhow::{Context, Result};
 use git2::{
-	AutotagOption, BranchType, FetchOptions, MergeOptions, PushOptions, RemoteCallbacks,
-	Repository, ResetType,
+	AutotagOption,
+	BranchType,
+	FetchOptions,
+	MergeOptions,
+	PushOptions,
+	RemoteCallbacks,
+	Repository,
+	ResetType,
 };
-use std::path::Path;
 use walkdir::WalkDir;
 
 fn main() -> Result<()> {
@@ -82,9 +89,16 @@ fn main() -> Result<()> {
 
 // --- Helper Functions ---
 
-fn get_parent_default_branch(repo: &Repository) -> Result<String> {
+fn get_parent_default_branch(repo:&Repository) -> Result<String> {
 	let output = Command::new("gh")
-		.args(&["repo", "view", "--json", "parent", "--jq", ".defaultBranchRef.name"])
+		.args(&[
+			"repo",
+			"view",
+			"--json",
+			"parent",
+			"--jq",
+			".defaultBranchRef.name",
+		])
 		.output()
 		.context("Failed to execute 'gh' command")?;
 
@@ -103,15 +117,15 @@ fn get_parent_default_branch(repo: &Repository) -> Result<String> {
 	Ok(branch_name)
 }
 
-fn restore_gitignore_from_parent(repo: &Repository) -> Result<()> {
+fn restore_gitignore_from_parent(repo:&Repository) -> Result<()> {
 	restore_files_from_parent(repo, ".gitignore")
 }
 
-fn restore_package_json_from_parent(repo: &Repository) -> Result<()> {
+fn restore_package_json_from_parent(repo:&Repository) -> Result<()> {
 	restore_files_from_parent(repo, "package.json")
 }
 
-fn restore_files_from_parent(repo: &Repository, filename: &str) -> Result<()> {
+fn restore_files_from_parent(repo:&Repository, filename:&str) -> Result<()> {
 	for entry in WalkDir::new(".").into_iter().filter_map(|e| e.ok()) {
 		let path = entry.path();
 
@@ -125,8 +139,9 @@ fn restore_files_from_parent(repo: &Repository, filename: &str) -> Result<()> {
 	Ok(())
 }
 
-fn set_default_repo(repo: &Repository) -> Result<()> {
-	let source_url = repo.find_remote("source")?.url().unwrap_or_default().to_string();
+fn set_default_repo(repo:&Repository) -> Result<()> {
+	let source_url =
+		repo.find_remote("source")?.url().unwrap_or_default().to_string();
 
 	Command::new("gh")
 		.args(&["repo", "set-default", &source_url])
@@ -136,7 +151,7 @@ fn set_default_repo(repo: &Repository) -> Result<()> {
 	Ok(())
 }
 
-fn add_all(repo: &Repository) -> Result<()> {
+fn add_all(repo:&Repository) -> Result<()> {
 	let mut index = repo.index()?;
 
 	index.add_all(["*"].iter(), git2::IndexAddOption::DEFAULT, None)?;
@@ -146,16 +161,21 @@ fn add_all(repo: &Repository) -> Result<()> {
 	Ok(())
 }
 
-fn set_upstream(repo: &Repository, local_branch: &str, upstream: &str) -> Result<()> {
-	let mut branch =
-		repo.find_branch(local_branch, BranchType::Local).context("Branch not found")?;
+fn set_upstream(
+	repo:&Repository,
+	local_branch:&str,
+	upstream:&str,
+) -> Result<()> {
+	let mut branch = repo
+		.find_branch(local_branch, BranchType::Local)
+		.context("Branch not found")?;
 
 	branch.set_upstream(Some(upstream))?;
 
 	Ok(())
 }
 
-fn clean(repo: &Repository) -> Result<()> {
+fn clean(repo:&Repository) -> Result<()> {
 	Command::new("git")
 		.args(&["clean", "-dfx"])
 		.current_dir(repo.path())
@@ -166,12 +186,13 @@ fn clean(repo: &Repository) -> Result<()> {
 }
 
 fn fetch_from_remote(
-	repo: &Repository,
-	remote_name: &str,
-	no_tags: bool,
-	depth: u32,
+	repo:&Repository,
+	remote_name:&str,
+	no_tags:bool,
+	depth:u32,
 ) -> Result<()> {
-	let mut remote = repo.find_remote(remote_name).context("Remote not found")?;
+	let mut remote =
+		repo.find_remote(remote_name).context("Remote not found")?;
 
 	let mut callbacks = RemoteCallbacks::new();
 
@@ -184,12 +205,14 @@ fn fetch_from_remote(
 	}
 	fetch_options.depth(depth);
 
-	remote.fetch(&["main"], Some(&mut fetch_options), None).context("Failed to fetch")?;
+	remote
+		.fetch(&["main"], Some(&mut fetch_options), None)
+		.context("Failed to fetch")?;
 
 	Ok(())
 }
 
-fn fetch_unshallow(repo: &Repository, remote_name: &str) -> Result<()> {
+fn fetch_unshallow(repo:&Repository, remote_name:&str) -> Result<()> {
 	Command::new("git")
 		.args(&["fetch", remote_name, "--no-tags", "--unshallow"])
 		.current_dir(repo.path())
@@ -199,7 +222,7 @@ fn fetch_unshallow(repo: &Repository, remote_name: &str) -> Result<()> {
 	Ok(())
 }
 
-fn merge_from_parent(repo: &Repository) -> Result<()> {
+fn merge_from_parent(repo:&Repository) -> Result<()> {
 	let parent_branch = get_parent_default_branch(repo)?;
 
 	let parent_commit = repo
@@ -219,7 +242,7 @@ fn merge_from_parent(repo: &Repository) -> Result<()> {
 	Ok(())
 }
 
-fn pull(repo: &Repository) -> Result<()> {
+fn pull(repo:&Repository) -> Result<()> {
 	Command::new("git")
 		.args(&[
 			"pull",
@@ -237,8 +260,9 @@ fn pull(repo: &Repository) -> Result<()> {
 	Ok(())
 }
 
-fn push(repo: &Repository, remote_name: &str, refspec: &str) -> Result<()> {
-	let mut remote = repo.find_remote(remote_name).context("Remote not found")?;
+fn push(repo:&Repository, remote_name:&str, refspec:&str) -> Result<()> {
+	let mut remote =
+		repo.find_remote(remote_name).context("Remote not found")?;
 
 	let mut callbacks = RemoteCallbacks::new();
 
@@ -246,16 +270,18 @@ fn push(repo: &Repository, remote_name: &str, refspec: &str) -> Result<()> {
 
 	push_options.remote_callbacks(callbacks);
 
-	remote.push(&[refspec], Some(&mut push_options)).context("Failed to push")?;
+	remote
+		.push(&[refspec], Some(&mut push_options))
+		.context("Failed to push")?;
 
 	Ok(())
 }
 
 fn push_set_upstream(
-	repo: &Repository,
-	remote_name: &str,
-	branch: &str,
-	force: bool,
+	repo:&Repository,
+	remote_name:&str,
+	branch:&str,
+	force:bool,
 ) -> Result<()> {
 	let refspec = if force {
 		format!("+refs/heads/{}:refs/heads/{}", branch, branch)
@@ -270,25 +296,25 @@ fn push_set_upstream(
 	Ok(())
 }
 
-fn add_remote(repo: &Repository, name: &str, url: &str) -> Result<()> {
+fn add_remote(repo:&Repository, name:&str, url:&str) -> Result<()> {
 	repo.remote(name, url).context("Failed to add remote")?;
 
 	Ok(())
 }
 
-fn remove_remote(repo: &Repository, name: &str) -> Result<()> {
+fn remove_remote(repo:&Repository, name:&str) -> Result<()> {
 	repo.remote_delete(name).context("Failed to remove remote")?;
 
 	Ok(())
 }
 
-fn set_remote_url(repo: &Repository, name: &str, url: &str) -> Result<()> {
+fn set_remote_url(repo:&Repository, name:&str, url:&str) -> Result<()> {
 	repo.remote_set_url(name, url).context("Failed to set remote URL")?;
 
 	Ok(())
 }
 
-fn reset_hard_to_parent(repo: &Repository) -> Result<()> {
+fn reset_hard_to_parent(repo:&Repository) -> Result<()> {
 	let parent_branch = get_parent_default_branch(repo)?;
 
 	let parent_commit = repo
@@ -302,7 +328,7 @@ fn reset_hard_to_parent(repo: &Repository) -> Result<()> {
 	Ok(())
 }
 
-fn reset_file(repo: &Repository, file: &str) -> Result<()> {
+fn reset_file(repo:&Repository, file:&str) -> Result<()> {
 	let mut index = repo.index()?;
 
 	index.remove_path(Path::new(file)).context("Failed to reset file")?;
@@ -312,7 +338,7 @@ fn reset_file(repo: &Repository, file: &str) -> Result<()> {
 	Ok(())
 }
 
-fn restore_file_from_parent(repo: &Repository, file_path: &str) -> Result<()> {
+fn restore_file_from_parent(repo:&Repository, file_path:&str) -> Result<()> {
 	let parent_branch = get_parent_default_branch(repo)?;
 
 	let parent_commit = repo
@@ -328,12 +354,13 @@ fn restore_file_from_parent(repo: &Repository, file_path: &str) -> Result<()> {
 
 	let blob = object.as_blob().context("Entry is not a blob")?;
 
-	std::fs::write(file_path, blob.content()).context("Failed to write file content")?;
+	std::fs::write(file_path, blob.content())
+		.context("Failed to write file content")?;
 
 	Ok(())
 }
 
-fn restore_from_source(repo: &Repository, source: &str, file: &str) -> Result<()> {
+fn restore_from_source(repo:&Repository, source:&str, file:&str) -> Result<()> {
 	let obj = repo.revparse_single(source)?;
 
 	let tree = obj.peel_to_tree()?;
@@ -342,12 +369,13 @@ fn restore_from_source(repo: &Repository, source: &str, file: &str) -> Result<()
 
 	let blob = entry.to_object(repo)?.peel_to_blob()?;
 
-	std::fs::write(file, blob.content()).context("Failed to write file content")?;
+	std::fs::write(file, blob.content())
+		.context("Failed to write file content")?;
 
 	Ok(())
 }
 
-fn restore_file(repo: &Repository, file: &str) -> Result<()> {
+fn restore_file(repo:&Repository, file:&str) -> Result<()> {
 	let head = repo.head()?;
 
 	let tree = head.peel_to_tree()?;
@@ -356,24 +384,31 @@ fn restore_file(repo: &Repository, file: &str) -> Result<()> {
 
 	let blob = entry.to_object(repo)?.peel_to_blob()?;
 
-	std::fs::write(file, blob.content()).context("Failed to write file content")?;
+	std::fs::write(file, blob.content())
+		.context("Failed to write file content")?;
 
 	Ok(())
 }
 
-fn add_submodule(repo: &Repository, origin: &str, subdependency: &str) -> Result<()> {
-	repo.submodule(origin, Path::new(subdependency), false).context("Failed to add submodule")?;
+fn add_submodule(
+	repo:&Repository,
+	origin:&str,
+	subdependency:&str,
+) -> Result<()> {
+	repo.submodule(origin, Path::new(subdependency), false)
+		.context("Failed to add submodule")?;
 
 	Ok(())
 }
 
-fn switch_branch(repo: &Repository, branch: &str) -> Result<()> {
-	repo.set_head(&format!("refs/heads/{}", branch)).context("Failed to switch branch")?;
+fn switch_branch(repo:&Repository, branch:&str) -> Result<()> {
+	repo.set_head(&format!("refs/heads/{}", branch))
+		.context("Failed to switch branch")?;
 
 	Ok(())
 }
 
-fn create_and_switch_branch(repo: &Repository, branch: &str) -> Result<()> {
+fn create_and_switch_branch(repo:&Repository, branch:&str) -> Result<()> {
 	let head = repo.head()?;
 
 	let oid = head.target().unwrap();
@@ -382,7 +417,8 @@ fn create_and_switch_branch(repo: &Repository, branch: &str) -> Result<()> {
 
 	repo.branch(branch, &commit, false).context("Failed to create branch")?;
 
-	repo.set_head(&format!("refs/heads/{}", branch)).context("Failed to switch branch")?;
+	repo.set_head(&format!("refs/heads/{}", branch))
+		.context("Failed to switch branch")?;
 
 	Ok(())
 }

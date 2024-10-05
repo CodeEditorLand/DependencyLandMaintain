@@ -12,10 +12,13 @@ fn main() {
 		.arg(arg!(--process <VALUE>).required(true))
 		.get_matches();
 
-	let category =
-		matches.get_one::<String>("category").expect("Cannot get the value of category!");
+	let category = matches
+		.get_one::<String>("category")
+		.expect("Cannot get the value of category!");
 
-	let process = matches.get_one::<String>("process").expect("Cannot get the value of process!");
+	let process = matches
+		.get_one::<String>("process")
+		.expect("Cannot get the value of process!");
 
 	if category == "cache" {
 		if process == "get" {

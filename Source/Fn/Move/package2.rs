@@ -4,36 +4,49 @@ fn main() {
 	println!("Process: Move/package.sh");
 
 	// Context: CodeEditorLand/Environment/Stream
-	let directory = std::env::current_dir().expect("Failed to get current directory");
+	let directory =
+		std::env::current_dir().expect("Failed to get current directory");
 	let cache_path = directory.join("../Cache/Repository/Build.md");
 
-	let repositories = read_array(&cache_path).expect("Failed to read repositories");
+	let repositories =
+		read_array(&cache_path).expect("Failed to read repositories");
 
 	for repository in repositories {
 		let folder = repository.replace("CodeEditorLand/", "");
 
-		let output =
-			Command::new("cd").arg(&folder).output().expect("Failed to execute cd command");
+		let output = Command::new("cd")
+			.arg(&folder)
+			.output()
+			.expect("Failed to execute cd command");
 
 		println!("{}", String::from_utf8_lossy(&output.stdout));
 
 		// Execute script here
 		script(&folder);
 
-		let output = Command::new("cd").arg("-").output().expect("Failed to execute cd - command");
+		let output = Command::new("cd")
+			.arg("-")
+			.output()
+			.expect("Failed to execute cd - command");
 
 		println!("{}", String::from_utf8_lossy(&output.stdout));
 	}
 }
 
-fn read_array(file_path: &std::path::Path) -> Result<Vec<String>, std::io::Error> {
+fn read_array(
+	file_path:&std::path::Path,
+) -> Result<Vec<String>, std::io::Error> {
 	let content = std::fs::read_to_string(file_path)?;
-	let repositories: Vec<String> = content.lines().map(|s| s.to_string()).collect();
+	let repositories:Vec<String> =
+		content.lines().map(|s| s.to_string()).collect();
 	Ok(repositories)
 }
 
-fn script(folder: &str) {
-	let output = Command::new("cd").arg(folder).output().expect("Failed to execute cd command");
+fn script(folder:&str) {
+	let output = Command::new("cd")
+		.arg(folder)
+		.output()
+		.expect("Failed to execute cd command");
 
 	println!("{}", String::from_utf8_lossy(&output.stdout));
 
@@ -51,8 +64,10 @@ fn script(folder: &str) {
 			"generators/app/templates/ext-command-ts/template.package.json",
 		);
 		move_package(
-			"generators/app/templates/ext-command-ts/vscode-webpack/package.json",
-			"generators/app/templates/ext-command-ts/vscode-webpack/template.package.json",
+			"generators/app/templates/ext-command-ts/vscode-webpack/package.\
+			 json",
+			"generators/app/templates/ext-command-ts/vscode-webpack/template.\
+			 package.json",
 		);
 		move_package(
 			"generators/app/templates/ext-command-web/package.json",
@@ -76,7 +91,8 @@ fn script(folder: &str) {
 		);
 		move_package(
 			"generators/app/templates/ext-notebook-renderer/package.json",
-			"generators/app/templates/ext-notebook-renderer/template.package.json",
+			"generators/app/templates/ext-notebook-renderer/template.package.\
+			 json",
 		);
 		move_package(
 			"generators/app/templates/ext-snippets/package.json",
@@ -84,12 +100,15 @@ fn script(folder: &str) {
 		);
 	}
 
-	let output = Command::new("cd").arg("-").output().expect("Failed to execute cd - command");
+	let output = Command::new("cd")
+		.arg("-")
+		.output()
+		.expect("Failed to execute cd - command");
 
 	println!("{}", String::from_utf8_lossy(&output.stdout));
 }
 
-fn move_package(source: &str, destination: &str) {
+fn move_package(source:&str, destination:&str) {
 	if let Err(err) = std::fs::rename(source, destination) {
 		println!("Error moving package.json file: {}", err);
 	}
