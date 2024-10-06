@@ -44,8 +44,7 @@ pub fn replace() {
 
 	// Initialize the source map and session
 	let cm = SourceMap::default();
-	let handler =
-		Box::new(Session { handler:&swc_ecma_parser::Handler::new(&cm) });
+	let handler = Box::new(Session { handler:&swc_ecma_parser::Handler::new(&cm) });
 
 	// Initialize the parser
 	let comments = SingleThreadedComments::default();
@@ -58,30 +57,23 @@ pub fn replace() {
 			no_early_errors:false,
 		}),
 		Default::default(),
-		SourceFileInput::from(SourceMap::new().new_source_file(
-			FileName::Custom("example.ts".into()),
-			ts_code.into(),
-		)),
+		SourceFileInput::from(
+			SourceMap::new().new_source_file(FileName::Custom("example.ts".into()), ts_code.into()),
+		),
 		Some(&comments),
 	);
 	let mut parser = Parser::new_from(lexer);
 
 	// Parse the TypeScript code
-	let mut module = parser
-		.parse_typescript_module()
-		.expect("Failed to parse TypeScript code");
+	let mut module = parser.parse_typescript_module().expect("Failed to parse TypeScript code");
 
 	// Replace import statements
 	module.body.retain(|item| {
 		match item {
 			ModuleItem::Stmt(Stmt::Import(import_stmt)) => {
 				// Check if it's an import statement you want to replace
-				let src_str =
-					cm.span_to_snippet(import_stmt.src.value.span).unwrap();
-				if src_str
-					== "'vs/platform/userDataSync/common/\
-					    userDataSyncLocalStoreService'"
-				{
+				let src_str = cm.span_to_snippet(import_stmt.src.value.span).unwrap();
+				if src_str == "'vs/platform/userDataSync/common/userDataSyncLocalStoreService'" {
 					// Replace the import with your desired import
 					*item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
 						span:import_stmt.span,

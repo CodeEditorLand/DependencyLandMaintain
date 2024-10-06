@@ -16,9 +16,7 @@ fn main() {
 		.get_one::<String>("category")
 		.expect("Cannot get the value of category!");
 
-	let process = matches
-		.get_one::<String>("process")
-		.expect("Cannot get the value of process!");
+	let process = matches.get_one::<String>("process").expect("Cannot get the value of process!");
 
 	if category == "cache" {
 		if process == "get" {

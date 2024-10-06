@@ -38,13 +38,8 @@ fn main() {
 	}
 }
 
-fn read_array(
-	file_path:&std::path::Path,
-) -> Result<Vec<String>, std::io::Error> {
-	Ok(std::fs::read_to_string(file_path)?
-		.lines()
-		.map(|s| s.to_string())
-		.collect())
+fn read_array(file_path:&std::path::Path) -> Result<Vec<String>, std::io::Error> {
+	Ok(std::fs::read_to_string(file_path)?.lines().map(|s| s.to_string()).collect())
 }
 
 fn script(folder:&str) {

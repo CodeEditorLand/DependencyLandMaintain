@@ -1,10 +1,11 @@
-use serde_json::{json, Value};
 use std::fs;
+
+use serde_json::{json, Value};
 
 fn main() {
 	// Read package.json file
 	let package_json_str = fs::read_to_string("package.json").expect("Failed to read package.json");
-	let mut package_json: Value =
+	let mut package_json:Value =
 		serde_json::from_str(&package_json_str).expect("Failed to parse package.json");
 
 	// Delete keys from package.json
@@ -119,13 +120,13 @@ fn main() {
 	println!("Action: Clean/Detail.sh completed successfully.");
 }
 
-fn remove_key(value: &mut Value, key: &str) {
+fn remove_key(value:&mut Value, key:&str) {
 	if let Some(obj) = value.as_object_mut() {
 		obj.remove(key);
 	}
 }
 
-fn remove_dependencies(value: &mut Value, omit: &[&str], dependency_type: &str) {
+fn remove_dependencies(value:&mut Value, omit:&[&str], dependency_type:&str) {
 	if let Some(mut dependencies) = value.get_mut(dependency_type).and_then(Value::as_object_mut) {
 		for dependency in omit {
 			dependencies.remove(*dependency);

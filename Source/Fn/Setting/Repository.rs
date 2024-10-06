@@ -23,13 +23,9 @@ fn main() {
 	println!("Process completed successfully.");
 }
 
-fn process_repository(
-	repository:&str,
-	current_dir:&std::path::Path,
-) -> std::io::Result<()> {
+fn process_repository(repository:&str, current_dir:&std::path::Path) -> std::io::Result<()> {
 	// Change directory to the repository
-	let repository_path =
-		current_dir.join(repository.replace("CodeEditorLand/", ""));
+	let repository_path = current_dir.join(repository.replace("CodeEditorLand/", ""));
 
 	env::set_current_dir(&repository_path)?;
 

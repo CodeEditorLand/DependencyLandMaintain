@@ -91,14 +91,7 @@ fn main() -> Result<()> {
 
 fn get_parent_default_branch(repo:&Repository) -> Result<String> {
 	let output = Command::new("gh")
-		.args(&[
-			"repo",
-			"view",
-			"--json",
-			"parent",
-			"--jq",
-			".defaultBranchRef.name",
-		])
+		.args(&["repo", "view", "--json", "parent", "--jq", ".defaultBranchRef.name"])
 		.output()
 		.context("Failed to execute 'gh' command")?;
 
@@ -140,8 +133,7 @@ fn restore_files_from_parent(repo:&Repository, filename:&str) -> Result<()> {
 }
 
 fn set_default_repo(repo:&Repository) -> Result<()> {
-	let source_url =
-		repo.find_remote("source")?.url().unwrap_or_default().to_string();
+	let source_url = repo.find_remote("source")?.url().unwrap_or_default().to_string();
 
 	Command::new("gh")
 		.args(&["repo", "set-default", &source_url])
@@ -161,14 +153,9 @@ fn add_all(repo:&Repository) -> Result<()> {
 	Ok(())
 }
 
-fn set_upstream(
-	repo:&Repository,
-	local_branch:&str,
-	upstream:&str,
-) -> Result<()> {
-	let mut branch = repo
-		.find_branch(local_branch, BranchType::Local)
-		.context("Branch not found")?;
+fn set_upstream(repo:&Repository, local_branch:&str, upstream:&str) -> Result<()> {
+	let mut branch =
+		repo.find_branch(local_branch, BranchType::Local).context("Branch not found")?;
 
 	branch.set_upstream(Some(upstream))?;
 
@@ -185,14 +172,8 @@ fn clean(repo:&Repository) -> Result<()> {
 	Ok(())
 }
 
-fn fetch_from_remote(
-	repo:&Repository,
-	remote_name:&str,
-	no_tags:bool,
-	depth:u32,
-) -> Result<()> {
-	let mut remote =
-		repo.find_remote(remote_name).context("Remote not found")?;
+fn fetch_from_remote(repo:&Repository, remote_name:&str, no_tags:bool, depth:u32) -> Result<()> {
+	let mut remote = repo.find_remote(remote_name).context("Remote not found")?;
 
 	let mut callbacks = RemoteCallbacks::new();
 
@@ -261,8 +242,7 @@ fn pull(repo:&Repository) -> Result<()> {
 }
 
 fn push(repo:&Repository, remote_name:&str, refspec:&str) -> Result<()> {
-	let mut remote =
-		repo.find_remote(remote_name).context("Remote not found")?;
+	let mut remote = repo.find_remote(remote_name).context("Remote not found")?;
 
 	let mut callbacks = RemoteCallbacks::new();
 
@@ -270,19 +250,12 @@ fn push(repo:&Repository, remote_name:&str, refspec:&str) -> Result<()> {
 
 	push_options.remote_callbacks(callbacks);
 
-	remote
-		.push(&[refspec], Some(&mut push_options))
-		.context("Failed to push")?;
+	remote.push(&[refspec], Some(&mut push_options)).context("Failed to push")?;
 
 	Ok(())
 }
 
-fn push_set_upstream(
-	repo:&Repository,
-	remote_name:&str,
-	branch:&str,
-	force:bool,
-) -> Result<()> {
+fn push_set_upstream(repo:&Repository, remote_name:&str, branch:&str, force:bool) -> Result<()> {
 	let refspec = if force {
 		format!("+refs/heads/{}:refs/heads/{}", branch, branch)
 	} else {
@@ -354,8 +327,7 @@ fn restore_file_from_parent(repo:&Repository, file_path:&str) -> Result<()> {
 
 	let blob = object.as_blob().context("Entry is not a blob")?;
 
-	std::fs::write(file_path, blob.content())
-		.context("Failed to write file content")?;
+	std::fs::write(file_path, blob.content()).context("Failed to write file content")?;
 
 	Ok(())
 }
@@ -369,8 +341,7 @@ fn restore_from_source(repo:&Repository, source:&str, file:&str) -> Result<()> {
 
 	let blob = entry.to_object(repo)?.peel_to_blob()?;
 
-	std::fs::write(file, blob.content())
-		.context("Failed to write file content")?;
+	std::fs::write(file, blob.content()).context("Failed to write file content")?;
 
 	Ok(())
 }
@@ -384,17 +355,12 @@ fn restore_file(repo:&Repository, file:&str) -> Result<()> {
 
 	let blob = entry.to_object(repo)?.peel_to_blob()?;
 
-	std::fs::write(file, blob.content())
-		.context("Failed to write file content")?;
+	std::fs::write(file, blob.content()).context("Failed to write file content")?;
 
 	Ok(())
 }
 
-fn add_submodule(
-	repo:&Repository,
-	origin:&str,
-	subdependency:&str,
-) -> Result<()> {
+fn add_submodule(repo:&Repository, origin:&str, subdependency:&str) -> Result<()> {
 	repo.submodule(origin, Path::new(subdependency), false)
 		.context("Failed to add submodule")?;
 

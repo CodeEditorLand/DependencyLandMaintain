@@ -4,19 +4,13 @@ use rayon::prelude::*;
 
 fn main() {
 	// Fetch the list of repositories
-	let repositories =
-		match std::fs::read_to_string("../Cache/Repository/Build.md") {
-			Ok(contents) => {
-				contents
-					.lines()
-					.map(|s| s.trim().to_string())
-					.collect::<Vec<_>>()
-			},
-			Err(e) => {
-				eprintln!("Error reading repository list: {}", e);
-				std::process::exit(1);
-			},
-		};
+	let repositories = match std::fs::read_to_string("../Cache/Repository/Build.md") {
+		Ok(contents) => contents.lines().map(|s| s.trim().to_string()).collect::<Vec<_>>(),
+		Err(e) => {
+			eprintln!("Error reading repository list: {}", e);
+			std::process::exit(1);
+		},
+	};
 
 	// Clone repositories in parallel
 	repositories.par_iter().for_each(|repo| {
@@ -29,12 +23,7 @@ fn main() {
 fn clone_repository(repository:&str) -> Result<(), Box<dyn Error>> {
 	// Execute git clone command
 	let output = Command::new("git")
-		.args(&[
-			"clone",
-			"--depth=1",
-			"--recurse-submodules",
-			"--shallow-submodules",
-		])
+		.args(&["clone", "--depth=1", "--recurse-submodules", "--shallow-submodules"])
 		.arg(format!("ssh://git@github.com/{}.git", repository))
 		.output()?;
 

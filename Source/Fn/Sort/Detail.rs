@@ -17,16 +17,12 @@ fn main() {
 	{
 		let folder = repository.replace("CodeEditorLand/", "");
 
-		let output = Command::new("cd")
-			.arg(&folder)
-			.output()
-			.expect("Failed to execute cd command");
+		let output =
+			Command::new("cd").arg(&folder).output().expect("Failed to execute cd command");
 
 		println!("{}", String::from_utf8_lossy(&output.stdout));
 
-		let output = Command::new("pwd")
-			.output()
-			.expect("Failed to execute pwd command");
+		let output = Command::new("pwd").output().expect("Failed to execute pwd command");
 
 		println!("{}", String::from_utf8_lossy(&output.stdout));
 
@@ -67,10 +63,7 @@ fn main() {
 
 		println!("{}", String::from_utf8_lossy(&output.stdout));
 
-		let output = Command::new("cd")
-			.arg("-")
-			.output()
-			.expect("Failed to execute cd - command");
+		let output = Command::new("cd").arg("-").output().expect("Failed to execute cd - command");
 
 		println!("{}", String::from_utf8_lossy(&output.stdout));
 	}

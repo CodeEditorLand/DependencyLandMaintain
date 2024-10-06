@@ -13,7 +13,7 @@ fn main() {
 		Err(err) => {
 			eprintln!("Error getting current directory: {}", err);
 			return;
-		}
+		},
 	};
 	println!("Current directory: {:?}", current_dir);
 
@@ -57,7 +57,7 @@ fn main() {
 		Err(err) => {
 			eprintln!("Error opening package.json file: {}", err);
 			return;
-		}
+		},
 	};
 
 	// Read package.json content
@@ -77,7 +77,7 @@ fn main() {
 		Err(err) => {
 			eprintln!("Error creating package.json.tmp file: {}", err);
 			return;
-		}
+		},
 	};
 
 	if let Err(err) = package_json_tmp_file.write_all(new_content.as_bytes()) {
